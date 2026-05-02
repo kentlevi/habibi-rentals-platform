@@ -1,0 +1,64 @@
+{
+  "entities": {
+    "Vehicle": {
+      "title": "Vehicle",
+      "description": "A rental vehicle (scooter or car)",
+      "type": "object",
+      "properties": {
+        "make": { "type": "string" },
+        "model": { "type": "string" },
+        "type": { "type": "string", "enum": ["Scooter", "Car", "SUV"] },
+        "pricePerDay": { "type": "number" },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "features": { "type": "array", "items": { "type": "string" } },
+        "status": { "type": "string", "enum": ["available", "maintenance", "retired"] },
+        "totalUnits": { "type": "number" }
+      },
+      "required": ["make", "model", "type", "pricePerDay", "status"]
+    },
+    "Booking": {
+      "title": "Booking",
+      "description": "A rental reservation record",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "vehicleId": { "type": "string" },
+        "startDate": { "type": "string", "format": "date-time" },
+        "endDate": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["pending", "confirmed", "active", "completed", "cancelled"] },
+        "pickupLocation": { "type": "string" },
+        "returnLocation": { "type": "string" },
+        "totalPrice": { "type": "number" },
+        "customerName": { "type": "string" },
+        "customerEmail": { "type": "string" },
+        "documentUrl": { "type": "string" }
+      },
+      "required": ["userId", "vehicleId", "startDate", "endDate", "status"]
+    },
+    "AppLocation": {
+      "title": "AppLocation",
+      "description": "Predefined pick-up and drop-off points",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["Port", "Resort", "Office"] },
+        "deliveryFee": { "type": "number" }
+      },
+      "required": ["name", "type"]
+    }
+  },
+  "firestore": {
+    "vehicles": {
+      "schema": "Vehicle",
+      "description": "The active fleet of scooters and cars"
+    },
+    "bookings": {
+      "schema": "Booking",
+      "description": "Customer reservations"
+    },
+    "locations": {
+      "schema": "AppLocation",
+      "description": "Pick-up and drop-off zones around Siquijor"
+    }
+  }
+}
