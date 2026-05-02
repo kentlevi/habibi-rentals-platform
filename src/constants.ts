@@ -1,49 +1,99 @@
 import { Vehicle, AppLocation } from './types';
 
 export const VEHICLES: Vehicle[] = [
+  // VANS
   {
-    id: 'scooter-1',
-    make: 'Honda',
-    model: 'Click 125i',
-    type: 'Scooter',
-    pricePerDay: 500,
+    id: 'vehicle-hiace',
+    model_name: 'Toyota Hiace Commuter Deluxe',
+    type: 'van',
+    plate_number: 'TBD-001',
+    daily_rate: 4500, // coastal
     status: 'available',
-    totalUnits: 10,
-    features: ['Fuel Efficient', 'Helmet Included', 'Easy Handling'],
-    images: ['https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=800']
+    features: ['Coastal: ₱4,500/day', 'Mountain: ₱5,000/day', 'With Driver & Gas'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/8/80/2020_Toyota_HiAce_%28front%29.jpg']
   },
   {
-    id: 'scooter-2',
-    make: 'Yamaha',
-    model: 'Aerox 155',
-    type: 'Scooter',
-    pricePerDay: 700,
+    id: 'vehicle-tamaraw',
+    model_name: 'Toyota Tamaraw Commuter',
+    type: 'van',
+    plate_number: 'TBD-002',
+    daily_rate: 4500,
     status: 'available',
-    totalUnits: 5,
-    features: ['Sporty Design', 'LCD Console', 'Spacious Compartment'],
-    images: ['https://images.unsplash.com/photo-1558981403-c5f91eb1238e?auto=format&fit=crop&q=80&w=800']
+    features: ['Coastal: ₱4,500/day', 'Mountain: ₱5,000/day', 'With Driver & Gas'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/5/53/1997_Toyota_Kijang_1.8_SSX_%28Indonesia%29_front_view.jpg']
+  },
+  // CARS
+  {
+    id: 'vehicle-vios',
+    model_name: 'Toyota Vios',
+    type: 'car',
+    plate_number: 'TBD-003',
+    daily_rate: 2200,
+    status: 'available',
+    features: ['Self Drive', '5 Seater', 'Sedan'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/a/a3/Toyota_Vios_1.5_VVT-i_G_%28IV%29_%E2%80%93_f_13032025.jpg']
   },
   {
-    id: 'car-1',
-    make: 'Toyota',
-    model: 'Innova',
-    type: 'SUV',
-    pricePerDay: 2500,
+    id: 'vehicle-spresso',
+    model_name: 'Suzuki S-Presso',
+    type: 'car',
+    plate_number: 'TBD-004',
+    daily_rate: 2000,
     status: 'available',
-    totalUnits: 2,
-    features: ['7 Seater', 'Full Aircon', 'Diesel Engine'],
-    images: ['https://images.unsplash.com/photo-1550355291-bbee04a92027?auto=format&fit=crop&q=80&w=800']
+    features: ['Self Drive (Manual)', 'Compact', 'Fuel Efficient'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/d/d1/Red_Suzuki_S-Presso_1.0_GLX_2021.jpg']
   },
   {
-    id: 'car-2',
-    make: 'Suzuki',
-    model: 'Jimny',
-    type: 'SUV',
-    pricePerDay: 3500,
+    id: 'vehicle-avanza',
+    model_name: 'Toyota Avanza',
+    type: 'car',
+    plate_number: 'TBD-005',
+    daily_rate: 2700,
     status: 'available',
-    totalUnits: 1,
-    features: ['4x4 Capability', 'Iconic Design', 'Compact for Island Roads'],
-    images: ['https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=800']
+    features: ['Self Drive', '7 Seater', 'MPV'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e0/2022_Toyota_Avanza_1.5_G_Toyota_Safety_Sense_W101RE_%2820220403%29.jpg']
+  },
+  // TUKTUK
+  {
+    id: 'vehicle-tuktuk',
+    model_name: 'Bajaj Tuktuk',
+    type: 'tuktuk',
+    plate_number: 'TBD-006',
+    daily_rate: 1300,
+    status: 'available',
+    features: ['Self Drive (Manual)', 'Island Vibes', '3 Seater'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/4/49/Bajaj_auto-rickshaw_in_Sri_Lanka.jpg']
+  },
+  // MOTORBIKES
+  {
+    id: 'vehicle-beat',
+    model_name: 'Honda Beat 110cc',
+    type: 'motorbike',
+    plate_number: 'TBD-007',
+    daily_rate: 350,
+    status: 'available',
+    features: ['No gas inclusion', 'Automatic', 'Two Helmets'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/8/8a/Honda_Scooter_BEAT_in_the_Honda_Collection_Hall..JPG']
+  },
+  {
+    id: 'vehicle-fazzio',
+    model_name: 'Yamaha Fazzio 125cc',
+    type: 'motorbike',
+    plate_number: 'TBD-008',
+    daily_rate: 550,
+    status: 'available',
+    features: ['No gas inclusion', 'Classic Style', 'Two Helmets'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/0/01/2022_Yamaha_Fazzio_Smart_Key.png']
+  },
+  {
+    id: 'vehicle-crf',
+    model_name: 'Honda CRF 150L',
+    type: 'motorbike',
+    plate_number: 'TBD-009',
+    daily_rate: 700,
+    status: 'available',
+    features: ['No gas inclusion', 'Dirt Bike', 'Two Helmets'],
+    images: ['https://upload.wikimedia.org/wikipedia/commons/c/c8/Honda_CRF150L_-_Indonesia_International_Motor_Show_2018_-_April_26_2018.jpg']
   }
 ];
 

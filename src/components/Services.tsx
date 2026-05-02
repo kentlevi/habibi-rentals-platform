@@ -30,7 +30,7 @@ export default function Services() {
     <section id="services" className="py-24 bg-white border-y border-brand-border">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-16">
-          <h2 className="text-3xl font-extrabold text-brand-dark tracking-tight mb-2">Mastery In Every Service</h2>
+          <h2 className="text-3xl font-semibold text-brand-dark tracking-tight mb-2">Mastery In Every Service</h2>
           <p className="text-brand-text-muted text-sm font-medium">Elevating the luxury rental and ownership experience.</p>
         </div>
 
@@ -47,7 +47,7 @@ export default function Services() {
               <div className="mb-6 p-4 bg-brand-surface border border-brand-border rounded-xl w-fit group-hover:border-brand-secondary transition-colors duration-300">
                 {s.icon}
               </div>
-              <h3 className="text-brand-dark font-bold text-lg mb-3 tracking-tight">{s.title}</h3>
+              <h3 className="text-brand-dark font-semibold text-lg mb-3 tracking-tight">{s.title}</h3>
               <p className="text-brand-text-muted text-sm leading-relaxed font-medium">
                 {s.desc}
               </p>

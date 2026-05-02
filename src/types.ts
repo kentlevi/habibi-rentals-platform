@@ -1,16 +1,15 @@
-export type VehicleType = 'Scooter' | 'Car' | 'SUV';
-export type BookingStatus = 'pending' | 'confirmed' | 'active' | 'completed' | 'cancelled';
+export type VehicleType = 'motorbike' | 'car' | 'van' | 'tuktuk';
+export type ReservationStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed';
 
 export interface Vehicle {
   id: string;
-  make: string;
-  model: string;
   type: VehicleType;
-  pricePerDay: number;
-  images: string[];
-  features: string[];
-  status: 'available' | 'maintenance' | 'retired';
-  totalUnits: number;
+  model_name: string;
+  plate_number: string;
+  daily_rate: number;
+  status?: 'available' | 'maintenance' | 'retired';
+  images?: string[];
+  features?: string[];
 }
 
 export interface AppLocation {
@@ -26,17 +25,14 @@ export interface FilterOptions {
   minPrice: number;
   maxPrice: number;
 }
-export interface Booking {
+
+export interface Reservation {
   id: string;
-  userId: string;
-  vehicleId: string;
-  startDate: string;
-  endDate: string;
-  status: BookingStatus;
-  pickupLocation: string;
-  returnLocation: string;
-  totalPrice: number;
-  customerName: string;
-  customerEmail: string;
-  documentUrl?: string;
+  vehicle_id: string;
+  start_date: string;
+  end_date: string;
+  status: ReservationStatus;
+  userId?: string;
+  customerName?: string;
+  totalPrice?: number;
 }

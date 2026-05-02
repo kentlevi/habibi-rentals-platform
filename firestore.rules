@@ -1,0 +1,92 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Primitives
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null; }
+    function isAdmin() {
+      // Basic admin check - in a real app this would check an admins collection
+      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // Entity Validations
+    function isValidVehicle(data) {
+      return data.keys().hasAll(['type', 'model_name', 'plate_number', 'daily_rate'])
+        && data.type is string && data.type.size() <= 20 && (data.type == 'motorbike' || data.type == 'car')
+        && data.model_name is string && data.model_name.size() <= 100
+        && data.plate_number is string && data.plate_number.size() <= 20
+        && data.daily_rate is number
+        && (!data.keys().hasAny(['status']) || (data.status is string && data.status.size() <= 20))
+        && (!data.keys().hasAny(['images']) || (data.images is list && data.images.size() <= 10))
+        && (!data.keys().hasAny(['features']) || (data.features is list && data.features.size() <= 20));
+    }
+
+    function isValidReservation(data) {
+      return data.keys().hasAll(['vehicle_id', 'start_date', 'end_date', 'status', 'userId'])
+        && data.vehicle_id is string && data.vehicle_id.size() <= 128 && isValidId(data.vehicle_id)
+        && data.start_date is string && data.start_date.size() <= 50
+        && data.end_date is string && data.end_date.size() <= 50
+        && data.status is string && data.status.size() <= 20 && (data.status == 'pending' || data.status == 'confirmed' || data.status == 'cancelled' || data.status == 'completed')
+        && data.userId is string && data.userId == request.auth.uid
+        && (!data.keys().hasAny(['customerName']) || (data.customerName is string && data.customerName.size() <= 100))
+        && (!data.keys().hasAny(['totalPrice']) || (data.totalPrice is number));
+    }
+
+    function isReservationOwner() {
+      return existing().userId == request.auth.uid;
+    }
+
+    match /vehicles/{vehicleId} {
+      allow read: if true; // Public can see vehicles
+      
+      allow create: if isAdmin() && isValidId(vehicleId) && isValidVehicle(incoming());
+      
+      allow update: if (
+        isAdmin() && isValidVehicle(incoming()) && isValidId(vehicleId)
+      );
+
+      allow delete: if isAdmin() && isValidId(vehicleId);
+    }
+
+    match /reservations/{reservationId} {
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow get: if isSignedIn() && isReservationOwner();
+      
+      allow create: if isSignedIn() 
+        && isValidId(reservationId) 
+        && isValidReservation(incoming())
+        && exists(/databases/$(database)/documents/vehicles/$(incoming().vehicle_id));
+
+      allow update: if (
+        isSignedIn()
+        && isValidId(reservationId)
+        && isValidReservation(incoming())
+        && isReservationOwner()
+        && incoming().userId == existing().userId
+        && incoming().vehicle_id == existing().vehicle_id
+        && incoming().diff(existing()).affectedKeys().hasOnly(['status'])
+        && (incoming().status == 'cancelled') // User can only cancel
+      ) || (
+        isAdmin() && isValidReservation(incoming()) && isValidId(reservationId)
+      );
+      
+      allow delete: if isAdmin() && isValidId(reservationId);
+    }
+
+    // Admins Collection to resolve `isAdmin()`
+    match /admins/{adminId} {
+      allow read: if isSignedIn() && request.auth.uid == adminId;
+      allow write: if false; // Must be set via Firebase console / Admin SDK
+    }
+  }
+}
