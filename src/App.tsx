@@ -26,7 +26,7 @@ function PublicApp() {
   const [isHowItWorksOpen, setIsHowItWorksOpen] = useState(false);
 
   return (
-    <div className="relative min-h-screen bg-white pb-16 md:pb-0 selection:bg-brand-primary selection:text-white overflow-x-hidden overflow-y-scroll">
+    <div className="relative min-h-screen overflow-x-hidden bg-white pb-16 selection:bg-brand-primary selection:text-white md:pb-0">
       <Navbar onOpenHowItWorks={() => setIsHowItWorksOpen(true)} />
       
       <main>
