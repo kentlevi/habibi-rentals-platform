@@ -22,9 +22,9 @@ export default function BrandLogo({ className = '', size = 'md', centered = fals
     <div className={`flex flex-col items-center ${scaleClass} ${originClass} ${className}`}>
       {showImage && (
         <img 
-          src="/logo.png" 
+          src="/assets/logo/habibi-shaun-rentals-siquijor.png" 
           alt="Habibi & Shaun Logo" 
-          className={`h-auto object-contain drop-shadow-md ${hideText ? 'w-16 mb-0' : 'w-24 mb-2'}`} 
+          className={`h-auto object-contain ${hideText ? 'w-16 mb-0' : 'w-24 mb-2'}`} 
         />
       )}
       

@@ -1,20 +1,69 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Habibi & Shaun Rentals Siquijor
 
-# Run and deploy your AI Studio app
+A Vite + React rental booking site for Habibi & Shaun Rentals Siquijor, with a private admin area for booking inquiries and fleet availability.
 
-This contains everything you need to run your app locally.
+## Demo Goals
 
-View your app in AI Studio: https://ai.studio/apps/6ebb6e1f-9587-42f6-b9f3-14569a2bfbff
+- Show a polished public rental website for tourists.
+- Route Facebook/social visitors into clearer booking inquiries.
+- Display fleet pricing, requirements, pickup points, and rental notes before chat.
+- Provide an admin-dashboard concept for booking requests and daily pickups.
 
-## Run Locally
+## Local Run
 
-**Prerequisites:**  Node.js
+```bash
+npm install
+npm run dev
+```
 
+Open:
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- Public site: `http://localhost:3000`
+- Admin login: `http://localhost:3000/admin/login`
+- Admin dashboard: `http://localhost:3000/admin`
+
+## Demo Walkthrough
+
+1. Start at the hero and explain the problem: guests message from Facebook without complete details.
+2. Use the booking widget to select vehicle type, pickup location, and dates.
+3. Show the filtered fleet and explain visible pricing, seats, fuel policy, and requirements.
+4. Open a vehicle detail modal and click `Start Booking Request`.
+5. Fill the inquiry form and show the generated WhatsApp handoff.
+6. Open `/admin/login` and show the private admin area.
+7. Show the Website Inquiry Inbox and refresh it after a public form submission.
+8. In the admin dashboard, change request statuses and fleet availability.
+9. Scroll through How It Works and FAQ to show customer-facing rental guidance.
+
+## Deployment
+
+Build command:
+
+```bash
+npm run build
+```
+
+Output directory:
+
+```text
+dist
+```
+
+For Vercel, `vercel.json` rewrites all routes to `index.html` so `/admin` and `/admin/login` work on refresh.
+
+## Still Needs Real Business Inputs
+
+- Real phone and WhatsApp number.
+- Real email.
+- Real admin emails.
+- Final rental rates and policies.
+- Real pickup address and service areas.
+- Real customer testimonials or approved Facebook review screenshots.
+- Firestore persistence for inquiry records, request statuses, and fleet availability controls.
+
+## Data Notes
+
+The current version stores inquiry submissions, request statuses, and fleet availability changes in browser `localStorage`
+through `src/lib/operations.ts`. This keeps the site interactive without requiring production Firestore writes yet.
+
+When moving to production, replace the local persistence functions with Firestore reads/writes. `firestore.rules`
+already includes a future `inquiries` collection shape for public create-only inquiry submissions plus admin-only reads and updates.

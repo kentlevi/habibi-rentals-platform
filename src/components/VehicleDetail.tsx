@@ -1,16 +1,18 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Check, Gauge, Fuel, Calendar, Zap, ShieldCheck, MapPin, Clock } from 'lucide-react';
+import { X, Check, Gauge, Fuel, Zap, ShieldCheck, MapPin, Clock, Users, MessageCircle, Facebook } from 'lucide-react';
 import { Vehicle } from '../types';
+import { BUSINESS } from '../config';
 
 interface VehicleDetailProps {
   vehicle: Vehicle | null;
   onClose: () => void;
+  onStartInquiry: (vehicleName: string) => void;
 }
 
-export default function VehicleDetail({ vehicle, onClose }: VehicleDetailProps) {
-  const [step, setStep] = React.useState<'detail' | 'verify' | 'success'>('detail');
+const actionClass = 'inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold transition-all active:scale-[0.98]';
 
+export default function VehicleDetail({ vehicle, onClose, onStartInquiry }: VehicleDetailProps) {
   React.useEffect(() => {
     if (vehicle) {
       document.body.style.overflow = 'hidden';
@@ -24,172 +26,161 @@ export default function VehicleDetail({ vehicle, onClose }: VehicleDetailProps) 
 
   if (!vehicle) return null;
 
+  const price = `PHP ${vehicle.daily_rate.toLocaleString()}`;
+
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 md:p-10">
+      <div className="fixed inset-0 z-[60] flex items-center justify-center p-3 sm:p-5 md:p-10">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={() => {
-            onClose();
-            setStep('detail');
-          }}
-          className="absolute inset-0 bg-slate-900/60 backdrop-blur-md"
+          onClick={onClose}
+          className="absolute inset-0 bg-slate-950/55 backdrop-blur-sm"
         />
-        
+
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto bg-white border border-brand-border rounded-2xl shadow-2xl flex flex-col md:flex-row"
+          className="relative flex max-h-[90vh] w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-brand-border bg-white shadow-2xl md:flex-row"
         >
-          {step === 'detail' && (
-            <>
-              <button 
-                onClick={onClose}
-                className="absolute top-6 right-6 z-10 w-10 h-10 bg-white border border-brand-border rounded-full flex items-center justify-center text-brand-dark hover:border-brand-primary hover:text-brand-primary transition-colors shadow-sm"
-              >
-                <X className="w-5 h-5" />
-              </button>
+          <button
+            onClick={onClose}
+            aria-label="Close vehicle details"
+            className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-brand-border bg-white text-brand-dark transition-colors hover:border-brand-primary hover:text-brand-primary md:right-6 md:top-6"
+          >
+            <X className="w-5 h-5" />
+          </button>
 
-              {/* Left: Images */}
-              <div className="w-full md:w-1/2 bg-[#F8F9FA] border-b md:border-b-0 md:border-r border-brand-border">
-                <div className="sticky top-0">
-                  <div className="border-b border-brand-border/50 aspect-[16/10] flex items-center justify-center overflow-hidden p-0 relative">
-                     <div className="absolute inset-0">
-                      <img 
-                        src={vehicle.images?.[0] || 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=800'} 
-                        alt={vehicle.model_name} 
-                        className="w-full h-full object-cover mix-blend-multiply"
-                        referrerPolicy="no-referrer"
-                      />
-                    </div>
-                  </div>
-                  <div className="p-8">
-                    <h4 className="text-[10px] font-semibold uppercase tracking-widest text-slate-400 mb-6">Island Ride Standards</h4>
-                    <div className="space-y-4">
-                      {[
-                        { icon: <ShieldCheck className="w-4 h-4" />, text: 'Quarterly Safety Audit' },
-                        { icon: <Clock className="w-4 h-4" />, text: 'Full Fuel on Delivery' },
-                        { icon: <Check className="w-4 h-4" />, text: 'Clean Helmets Included' }
-                      ].map((item, i) => (
-                        <div key={i} className="flex items-center gap-4 text-xs font-medium text-brand-dark">
-                          <div className="w-8 h-8 rounded-full border border-brand-border flex items-center justify-center text-brand-primary bg-white shadow-sm">
-                            {item.icon}
-                          </div>
-                          {item.text}
+          <div className="w-full overflow-y-auto border-b border-brand-border bg-[#F8F9FA] md:w-[52%] md:border-b-0 md:border-r">
+            <div>
+              <div className="relative flex aspect-[16/10] items-center justify-center overflow-hidden border-b border-brand-border/50 p-0">
+                <img
+                  src={vehicle.images?.[0] || 'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?auto=format&fit=crop&q=80&w=800'}
+                  alt={vehicle.model_name}
+                  className="w-full h-full object-cover mix-blend-multiply"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              <div className="grid gap-5 p-6 md:p-7">
+                <div>
+                  <h4 className="mb-4 text-xs font-semibold text-slate-500">Island rental standards</h4>
+                  <div className="grid gap-3 sm:grid-cols-3 md:grid-cols-1 lg:grid-cols-3">
+                    {[
+                      { icon: <ShieldCheck className="w-4 h-4" />, text: 'Safety checked before release' },
+                      { icon: <Clock className="w-4 h-4" />, text: 'Port and resort handoff' },
+                      { icon: <Check className="w-4 h-4" />, text: vehicle.type === 'motorbike' ? 'Clean helmets included' : 'Clean unit before pickup' },
+                    ].map((item, i) => (
+                      <div key={i} className="rounded-xl border border-brand-border bg-white p-4">
+                        <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-full border border-brand-border bg-brand-surface text-brand-primary">
+                          {item.icon}
                         </div>
-                      ))}
-                    </div>
+                        <div className="text-sm font-semibold leading-snug text-brand-dark">{item.text}</div>
+                      </div>
+                    ))}
                   </div>
+                </div>
+
+                <div className="rounded-xl border border-brand-border bg-white p-5">
+                  <h4 className="mb-4 flex items-center gap-2 text-sm font-semibold text-brand-dark">
+                    <MapPin className="w-3 h-3" />
+                    Island logistics
+                  </h4>
+                  <ul className="space-y-3 text-xs font-medium text-brand-dark">
+                    <li className="flex justify-between gap-4">
+                      <span className="text-brand-text-muted">Main Port</span>
+                      <span className="text-right">Siquijor Port</span>
+                    </li>
+                    <li className="flex justify-between gap-4">
+                      <span className="text-brand-text-muted">Return Policy</span>
+                      <span className="text-right">Flexible Drop-off</span>
+                    </li>
+                    <li className="flex justify-between gap-4">
+                      <span className="text-brand-text-muted">Fuel</span>
+                      <span className="text-right">{vehicle.fuelPolicy}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex w-full flex-col overflow-y-auto bg-white p-6 md:w-[48%] md:p-10">
+            <div className="mb-7 pr-10 md:pr-0">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full bg-brand-primary/10 px-3 py-1.5 text-xs font-semibold text-brand-primary">
+                <Zap className="w-3 h-3" />
+                {vehicle.badge || 'Available'}
+              </div>
+              <h2 className="mb-4 font-sans text-3xl font-semibold tracking-tight text-brand-dark">
+                {vehicle.model_name}
+              </h2>
+              <p className="text-sm font-medium text-brand-text-muted leading-relaxed">
+                {vehicle.bestFor}
+              </p>
+              <div className="mt-5 flex items-end gap-2 border-t border-brand-border pt-5 text-brand-primary">
+                <span className="font-sans text-3xl font-semibold">{price}</span>
+                <span className="mb-1 text-xs font-semibold text-brand-text-muted">/ 24 hours</span>
+              </div>
+            </div>
+
+            <div className="mb-7 space-y-5">
+              <div className="grid grid-cols-3 gap-3">
+                <div className="p-4 bg-brand-surface rounded-xl border border-brand-border">
+                  <Users className="w-4 h-4 text-brand-primary mb-3" />
+                  <div className="text-xs text-brand-text-muted font-semibold">Seats</div>
+                  <div className="text-sm font-semibold text-brand-dark mt-1">{vehicle.seats || '-'}</div>
+                </div>
+                <div className="p-4 bg-brand-surface rounded-xl border border-brand-border">
+                  <Gauge className="w-4 h-4 text-brand-primary mb-3" />
+                  <div className="text-xs text-brand-text-muted font-semibold">Drive</div>
+                  <div className="text-sm font-semibold text-brand-dark mt-1">{vehicle.transmission || 'Self Drive'}</div>
+                </div>
+                <div className="p-4 bg-brand-surface rounded-xl border border-brand-border">
+                  <Fuel className="w-4 h-4 text-brand-primary mb-3" />
+                  <div className="text-xs text-brand-text-muted font-semibold">Fuel</div>
+                  <div className="text-sm font-semibold text-brand-dark mt-1">{vehicle.type === 'van' ? 'Included' : 'Return'}</div>
                 </div>
               </div>
 
-              {/* Right: Info */}
-              <div className="w-full md:w-1/2 p-8 md:p-12 overflow-y-auto bg-white flex flex-col">
-                <div className="mb-10">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-primary/10 text-brand-primary text-[10px] font-semibold uppercase tracking-widest mb-6">
-                    <Zap className="w-3 h-3" />
-                    Instant Availability
-                  </div>
-                  <h2 className="font-sans text-3xl font-semibold text-brand-dark mb-4 tracking-tight">
-                    {vehicle.model_name}
-                  </h2>
-                  <div className="flex items-end gap-2 mt-4 text-brand-primary border-t border-brand-border pt-6">
-                    <span className="font-sans text-3xl font-semibold">₱{vehicle.daily_rate}</span>
-                    <span className="text-xs text-brand-text-muted mb-1 uppercase tracking-widest font-semibold">/ 24 Hours</span>
-                  </div>
-                </div>
-
-                <div className="space-y-6 mb-10">
-                  <div className="p-6 bg-brand-surface rounded-xl border border-brand-border">
-                    <h4 className="text-[11px] font-semibold uppercase tracking-widest text-slate-400 mb-4 flex items-center gap-2">
-                      <MapPin className="w-3 h-3" />
-                      Island Logistics
-                    </h4>
-                    <ul className="space-y-3 text-xs font-medium text-brand-dark">
-                       <li className="flex justify-between">
-                         <span className="text-brand-text-muted">Main Port</span>
-                         <span>Siquijor Port (Included)</span>
-                       </li>
-                       <li className="flex justify-between">
-                         <span className="text-brand-text-muted">Return Policy</span>
-                         <span>Flexible Drop-off</span>
-                       </li>
-                    </ul>
-                  </div>
-                </div>
-
-                <div className="mt-auto flex flex-col gap-4">
-                  <button 
-                    onClick={() => setStep('verify')}
-                    className="w-full bg-brand-primary text-white py-4 rounded-xl font-semibold text-xs uppercase tracking-widest hover:bg-brand-primary/90 transition-all shadow-xl shadow-brand-primary/30 active:scale-95"
-                  >
-                    Confirm & Verify Docs
-                  </button>
-                  <button onClick={onClose} className="w-full border border-brand-border py-4 rounded-xl font-semibold text-xs uppercase tracking-widest text-brand-text-muted hover:border-brand-dark hover:text-brand-dark transition-all">
-                    Browse Others
-                  </button>
+              <div className="rounded-xl border border-brand-border bg-white p-5">
+                <h4 className="mb-4 text-sm font-semibold text-brand-dark">Requirements</h4>
+                <div className="flex flex-wrap gap-2">
+                  {(vehicle.requirements || ['Valid ID', 'Pickup details']).map((item) => (
+                    <span key={item} className="rounded-lg border border-brand-border bg-brand-surface px-3 py-2 text-xs font-semibold text-brand-dark">
+                      {item}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </>
-          )}
-
-          {step === 'verify' && (
-            <div className="w-full p-12 text-center flex flex-col items-center justify-center min-h-[500px]">
-               <div className="w-20 h-20 bg-brand-primary/10 rounded-full flex items-center justify-center text-brand-primary mb-8 animate-bounce">
-                 <ShieldCheck className="w-10 h-10" />
-               </div>
-               <h3 className="text-2xl font-semibold text-brand-dark mb-4 tracking-tight">Automated Verification</h3>
-               <p className="text-brand-text-muted max-w-md mx-auto mb-10 font-medium">
-                 To skip the manual paperwork at the port, please snap a photo of your Driver's License. This is stored securely for Siquijor Port Authority requirements.
-               </p>
-               
-               <div className="w-full max-w-sm border-2 border-dashed border-brand-border rounded-xl p-10 mb-10 hover:border-brand-primary transition-colors cursor-pointer group">
-                  <div className="text-brand-text-muted group-hover:text-brand-primary transition-colors">
-                    <Calendar className="w-8 h-8 mx-auto mb-4" />
-                    <span className="text-xs font-semibold uppercase tracking-widest">Select Document File</span>
-                  </div>
-               </div>
-
-               <div className="flex gap-4 w-full max-w-sm">
-                 <button 
-                  onClick={() => setStep('success')}
-                  className="flex-1 bg-brand-primary text-white py-4 rounded-xl font-semibold text-xs uppercase tracking-widest shadow-xl shadow-brand-primary/20"
-                 >
-                   Verify & Pay
-                 </button>
-                 <button 
-                  onClick={() => setStep('detail')}
-                  className="flex-1 border border-brand-border py-4 rounded-xl font-semibold text-xs uppercase tracking-widest text-brand-text-muted"
-                 >
-                   Back
-                 </button>
-               </div>
             </div>
-          )}
 
-          {step === 'success' && (
-            <div className="w-full p-12 text-center flex flex-col items-center justify-center min-h-[500px]">
-               <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center text-white mb-8 shadow-2xl shadow-green-500/40">
-                 <Check className="w-12 h-12" />
-               </div>
-               <h3 className="text-3xl font-semibold text-brand-dark mb-4 tracking-tight">Booooked!</h3>
-        <p className="text-brand-text-muted max-w-2xl mx-auto mb-10 font-medium">
-          Your {vehicle.model_name} is reserved. Check your email for the confirmation voucher. Shaun or Crissa will deliver it at Siquijor Port on your arrival.
-        </p>
-               <button 
-                  onClick={() => {
-                    onClose();
-                    setStep('detail');
-                  }}
-                  className="bg-brand-dark text-white px-12 py-4 rounded-xl font-semibold text-xs uppercase tracking-widest shadow-2xl"
-               >
-                 Back to Main
-               </button>
+            <div className="mt-auto flex flex-col gap-3 border-t border-brand-border pt-5">
+              <button
+                onClick={() => {
+                  onClose();
+                  onStartInquiry(vehicle.model_name);
+                }}
+                className={`${actionClass} bg-brand-primary text-white shadow-lg shadow-brand-primary/20 hover:bg-brand-primary/90`}
+              >
+                <MessageCircle className="w-4 h-4" />
+                Start booking request
+              </button>
+              <a
+                href={BUSINESS.messengerUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={`${actionClass} border border-brand-border text-brand-dark hover:border-brand-primary hover:text-brand-primary`}
+              >
+                <Facebook className="w-4 h-4" />
+                Message on Messenger
+              </a>
+              <button onClick={onClose} className="min-h-10 text-sm font-semibold text-brand-text-muted transition-colors hover:text-brand-dark">
+                Browse other vehicles
+              </button>
             </div>
-          )}
+          </div>
         </motion.div>
       </div>
     </AnimatePresence>

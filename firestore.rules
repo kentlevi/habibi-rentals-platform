@@ -22,7 +22,7 @@ service cloud.firestore {
     // Entity Validations
     function isValidVehicle(data) {
       return data.keys().hasAll(['type', 'model_name', 'plate_number', 'daily_rate'])
-        && data.type is string && data.type.size() <= 20 && (data.type == 'motorbike' || data.type == 'car')
+        && data.type is string && data.type.size() <= 20 && (data.type == 'motorbike' || data.type == 'car' || data.type == 'van' || data.type == 'tuktuk')
         && data.model_name is string && data.model_name.size() <= 100
         && data.plate_number is string && data.plate_number.size() <= 20
         && data.daily_rate is number
@@ -42,6 +42,20 @@ service cloud.firestore {
         && (!data.keys().hasAny(['totalPrice']) || (data.totalPrice is number));
     }
 
+    function isValidInquiry(data) {
+      return data.keys().hasAll(['vehicleName', 'customerName', 'contact', 'pickupLocation', 'startDate', 'endDate', 'status', 'createdAt'])
+        && data.vehicleName is string && data.vehicleName.size() <= 120
+        && data.customerName is string && data.customerName.size() <= 100
+        && data.contact is string && data.contact.size() <= 100
+        && data.pickupLocation is string && data.pickupLocation.size() <= 120
+        && data.startDate is string && data.startDate.size() <= 50
+        && data.endDate is string && data.endDate.size() <= 50
+        && data.status is string && data.status.size() <= 30
+        && (data.status == 'new' || data.status == 'contacted' || data.status == 'confirmed' || data.status == 'closed')
+        && data.createdAt is timestamp
+        && (!data.keys().hasAny(['notes']) || (data.notes is string && data.notes.size() <= 1000));
+    }
+
     function isReservationOwner() {
       return existing().userId == request.auth.uid;
     }
@@ -59,7 +73,7 @@ service cloud.firestore {
     }
 
     match /reservations/{reservationId} {
-      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      allow list: if isAdmin();
       allow get: if isSignedIn() && isReservationOwner();
       
       allow create: if isSignedIn() 
@@ -81,6 +95,20 @@ service cloud.firestore {
       );
       
       allow delete: if isAdmin() && isValidId(reservationId);
+    }
+
+    match /inquiries/{inquiryId} {
+      allow create: if isValidId(inquiryId)
+        && isValidInquiry(incoming())
+        && incoming().status == 'new';
+
+      allow get, list: if isAdmin();
+
+      allow update: if isAdmin()
+        && isValidId(inquiryId)
+        && isValidInquiry(incoming());
+
+      allow delete: if isAdmin() && isValidId(inquiryId);
     }
 
     // Admins Collection to resolve `isAdmin()`

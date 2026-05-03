@@ -22,33 +22,36 @@ export default function HowItWorksModal({ isOpen, onClose }: Props) {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-5">
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-brand-dark/20 backdrop-blur-md"
+            className="absolute inset-0 bg-slate-950/45 backdrop-blur-sm"
           />
           <motion.div 
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="relative w-full max-w-2xl bg-white border border-brand-border rounded-2xl shadow-2xl p-8 md:p-12 overflow-y-auto max-h-[90vh]"
+            className="relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-brand-border bg-white shadow-2xl"
           >
             <button 
               onClick={onClose}
-              className="absolute top-6 right-6 w-10 h-10 bg-brand-surface border border-brand-border rounded-full flex items-center justify-center text-brand-dark hover:bg-[#E8E6E1] transition-colors"
+              aria-label="Close how to book"
+              className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full border border-brand-border bg-white text-brand-dark transition-colors hover:border-brand-primary hover:text-brand-primary"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h2 className="text-3xl font-semibold text-brand-dark mb-2 tracking-tight">How to Book</h2>
-            <p className="text-brand-text-muted font-medium mb-10">
-              Your island adventure with Habibi & Shaun starts in four simple steps.
-            </p>
+            <div className="border-b border-brand-border px-6 py-6 pr-16 md:px-8 md:py-7">
+              <h2 className="mb-2 text-3xl font-semibold tracking-tight text-brand-dark">How to Book</h2>
+              <p className="text-sm font-medium leading-relaxed text-brand-text-muted">
+                Your island adventure with Habibi & Shaun starts in four simple steps.
+              </p>
+            </div>
 
-            <div className="space-y-8">
+            <div className="flex-1 space-y-5 overflow-y-auto px-6 py-6 md:px-8">
               {[
                 {
                   icon: <CalendarCheck className="w-6 h-6" />,
@@ -71,12 +74,12 @@ export default function HowItWorksModal({ isOpen, onClose }: Props) {
                   desc: "Arrive at Siquijor or Larena Port. The Habibi & Shaun team will be waiting with your fueled, spotless vehicle."
                 }
               ].map((step, i) => (
-                <div key={i} className="flex gap-6 items-start">
-                  <div className="w-14 h-14 shrink-0 bg-brand-primary/10 rounded-2xl flex items-center justify-center text-brand-primary border border-brand-primary/20">
+                <div key={i} className="flex items-start gap-4 rounded-xl border border-brand-border bg-brand-surface p-4">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-brand-primary/20 bg-brand-primary/10 text-brand-primary">
                     {step.icon}
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-brand-dark mb-2">{step.title}</h3>
+                    <h3 className="mb-1 text-base font-semibold text-brand-dark">{step.title}</h3>
                     <p className="text-sm font-medium text-brand-text-muted leading-relaxed">
                       {step.desc}
                     </p>
@@ -87,9 +90,9 @@ export default function HowItWorksModal({ isOpen, onClose }: Props) {
 
             <button 
               onClick={onClose}
-              className="mt-12 w-full bg-brand-dark text-white py-4 rounded-xl font-semibold text-sm uppercase tracking-widest hover:bg-brand-primary transition-all shadow-xl shadow-brand-primary/20 active:scale-[0.98]"
+              className="m-6 mt-0 inline-flex min-h-12 items-center justify-center rounded-xl bg-brand-dark px-5 text-sm font-semibold text-white shadow-lg shadow-brand-dark/10 transition-all hover:bg-brand-primary active:scale-[0.98] md:m-8 md:mt-0"
             >
-              Got it, let's ride!
+              Got it, let's ride
             </button>
           </motion.div>
         </div>

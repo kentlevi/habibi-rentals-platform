@@ -6,7 +6,7 @@ import BrandLogo from './BrandLogo';
 
 export default function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-20 bg-brand-surface">
+    <section className="relative min-h-[90vh] flex flex-col items-center justify-center pt-24 bg-brand-surface">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[60%] bg-brand-primary/10 rounded-full blur-[100px]"></div>
@@ -27,9 +27,9 @@ export default function Hero() {
           
           <BrandLogo size="xl" centered className="mb-12 mt-8" />
           
-          <p className="text-[#334155] text-lg md:text-xl font-medium max-w-2xl mx-auto mb-16 leading-relaxed">
-            Instant booking for scooters and cars at Siquijor and Larena Ports.<br className="hidden md:block"/> 
-            Real-time availability for the island's best fleet.
+          <p className="mx-auto mb-16 max-w-none text-base font-medium leading-relaxed text-[#334155] md:text-lg">
+            <span className="block md:whitespace-nowrap">Scooters, cars, tuktuks, and vans for Siquijor ports and resort delivery.</span>
+            <span className="block md:whitespace-nowrap">Choose your ride, send your details, and arrive with a clear handoff.</span>
           </p>
         </motion.div>
 
@@ -41,8 +41,8 @@ export default function Hero() {
                 <Zap className="w-6 h-6 text-brand-primary" />
              </div>
              <div>
-               <h3 className="font-semibold text-brand-dark text-sm uppercase tracking-tight">Instant Confirmation</h3>
-               <p className="text-brand-text-muted text-xs font-medium">No DMs required. Book in 60s.</p>
+               <h3 className="font-semibold text-brand-dark text-sm uppercase tracking-tight">Fast Chat Booking</h3>
+               <p className="text-brand-text-muted text-xs font-medium">Messenger and WhatsApp friendly.</p>
              </div>
           </div>
           <div className="flex flex-col items-center gap-4 text-center">
@@ -59,8 +59,8 @@ export default function Hero() {
                 <ShieldCheck className="w-6 h-6 text-brand-primary" />
              </div>
              <div>
-               <h3 className="font-semibold text-brand-dark text-sm uppercase tracking-tight">Paperless Check-in</h3>
-               <p className="text-brand-text-muted text-xs font-medium">Verified docs before you arrive.</p>
+               <h3 className="font-semibold text-brand-dark text-sm uppercase tracking-tight">Clear Requirements</h3>
+               <p className="text-brand-text-muted text-xs font-medium">Know ID, license, and fuel details upfront.</p>
              </div>
           </div>
         </div>

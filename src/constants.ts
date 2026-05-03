@@ -1,16 +1,21 @@
 import { Vehicle, AppLocation } from './types';
 
 export const VEHICLES: Vehicle[] = [
-  // VANS
   {
     id: 'vehicle-hiace',
     model_name: 'Toyota Hiace Commuter Deluxe',
     type: 'van',
     plate_number: 'TBD-001',
-    daily_rate: 4500, // coastal
+    daily_rate: 4500,
     status: 'available',
-    features: ['Coastal: ₱4,500/day', 'Mountain: ₱5,000/day', 'With Driver & Gas'],
-    images: ['https://upload.wikimedia.org/wikipedia/commons/8/80/2020_Toyota_HiAce_%28front%29.jpg']
+    features: ['Coastal: PHP 4,500/day', 'Mountain: PHP 5,000/day', 'With Driver & Gas'],
+    badge: 'Best for Groups',
+    seats: 14,
+    transmission: 'With Driver',
+    fuelPolicy: 'Driver and gas included',
+    bestFor: 'Port transfers, family groups, and coastal tours',
+    requirements: ['Valid ID', 'Reservation deposit', 'Pickup details'],
+    images: ['/assets/vehicle/hiace-commuter-deluxe.jpg'],
   },
   {
     id: 'vehicle-tamaraw',
@@ -19,10 +24,15 @@ export const VEHICLES: Vehicle[] = [
     plate_number: 'TBD-002',
     daily_rate: 4500,
     status: 'available',
-    features: ['Coastal: ₱4,500/day', 'Mountain: ₱5,000/day', 'With Driver & Gas'],
-    images: ['https://upload.wikimedia.org/wikipedia/commons/5/53/1997_Toyota_Kijang_1.8_SSX_%28Indonesia%29_front_view.jpg']
+    features: ['Coastal: PHP 4,500/day', 'Mountain: PHP 5,000/day', 'With Driver & Gas'],
+    badge: 'Tour Ready',
+    seats: 10,
+    transmission: 'With Driver',
+    fuelPolicy: 'Driver and gas included',
+    bestFor: 'Island day tours and resort transfers',
+    requirements: ['Valid ID', 'Reservation deposit', 'Pickup details'],
+    images: ['/assets/vehicle/tamaraw-commuter.png'],
   },
-  // CARS
   {
     id: 'vehicle-vios',
     model_name: 'Toyota Vios',
@@ -31,7 +41,13 @@ export const VEHICLES: Vehicle[] = [
     daily_rate: 2200,
     status: 'available',
     features: ['Self Drive', '5 Seater', 'Sedan'],
-    images: ['https://upload.wikimedia.org/wikipedia/commons/a/a3/Toyota_Vios_1.5_VVT-i_G_%28IV%29_%E2%80%93_f_13032025.jpg']
+    badge: 'Comfort Pick',
+    seats: 5,
+    transmission: 'Automatic',
+    fuelPolicy: 'Fuel returned as received',
+    bestFor: 'Couples, small families, and rainy-day island drives',
+    requirements: ['Valid driver license', 'Valid ID', 'Security deposit'],
+    images: ['/assets/vehicle/toyota-vios.png'],
   },
   {
     id: 'vehicle-spresso',
@@ -41,7 +57,13 @@ export const VEHICLES: Vehicle[] = [
     daily_rate: 2000,
     status: 'available',
     features: ['Self Drive (Manual)', 'Compact', 'Fuel Efficient'],
-    images: ['https://upload.wikimedia.org/wikipedia/commons/d/d1/Red_Suzuki_S-Presso_1.0_GLX_2021.jpg']
+    badge: 'Budget Car',
+    seats: 5,
+    transmission: 'Manual',
+    fuelPolicy: 'Fuel returned as received',
+    bestFor: 'Budget-friendly self-drive trips around Siquijor',
+    requirements: ['Valid driver license', 'Valid ID', 'Security deposit'],
+    images: ['/assets/vehicle/suzuki-spresso.png'],
   },
   {
     id: 'vehicle-avanza',
@@ -51,9 +73,14 @@ export const VEHICLES: Vehicle[] = [
     daily_rate: 2700,
     status: 'available',
     features: ['Self Drive', '7 Seater', 'MPV'],
-    images: ['https://upload.wikimedia.org/wikipedia/commons/e/e0/2022_Toyota_Avanza_1.5_G_Toyota_Safety_Sense_W101RE_%2820220403%29.jpg']
+    badge: 'Family Choice',
+    seats: 7,
+    transmission: 'Automatic',
+    fuelPolicy: 'Fuel returned as received',
+    bestFor: 'Families and groups with luggage',
+    requirements: ['Valid driver license', 'Valid ID', 'Security deposit'],
+    images: ['/assets/vehicle/toyota-avanza.png'],
   },
-  // TUKTUK
   {
     id: 'vehicle-tuktuk',
     model_name: 'Bajaj Tuktuk',
@@ -62,9 +89,14 @@ export const VEHICLES: Vehicle[] = [
     daily_rate: 1300,
     status: 'available',
     features: ['Self Drive (Manual)', 'Island Vibes', '3 Seater'],
-    images: ['https://upload.wikimedia.org/wikipedia/commons/4/49/Bajaj_auto-rickshaw_in_Sri_Lanka.jpg']
+    badge: 'Island Vibes',
+    seats: 3,
+    transmission: 'Manual',
+    fuelPolicy: 'Fuel returned as received',
+    bestFor: 'Short beach hops and relaxed island cruising',
+    requirements: ['Valid driver license', 'Valid ID', 'Security deposit'],
+    images: ['/assets/vehicle/tuktuk.png'],
   },
-  // MOTORBIKES
   {
     id: 'vehicle-beat',
     model_name: 'Honda Beat 110cc',
@@ -73,7 +105,13 @@ export const VEHICLES: Vehicle[] = [
     daily_rate: 350,
     status: 'available',
     features: ['No gas inclusion', 'Automatic', 'Two Helmets'],
-    images: ['https://upload.wikimedia.org/wikipedia/commons/8/8a/Honda_Scooter_BEAT_in_the_Honda_Collection_Hall..JPG']
+    badge: 'Budget Scooter',
+    seats: 2,
+    transmission: 'Automatic',
+    fuelPolicy: 'Fuel not included',
+    bestFor: 'Solo travelers and budget island loops',
+    requirements: ['Valid driver license', 'Valid ID', 'Helmet use required'],
+    images: ['/assets/vehicle/honda-beat-110cc.png'],
   },
   {
     id: 'vehicle-fazzio',
@@ -83,7 +121,13 @@ export const VEHICLES: Vehicle[] = [
     daily_rate: 550,
     status: 'available',
     features: ['No gas inclusion', 'Classic Style', 'Two Helmets'],
-    images: ['https://upload.wikimedia.org/wikipedia/commons/0/01/2022_Yamaha_Fazzio_Smart_Key.png']
+    badge: 'Stylish Ride',
+    seats: 2,
+    transmission: 'Automatic',
+    fuelPolicy: 'Fuel not included',
+    bestFor: 'Couples, cafe stops, and scenic coastal roads',
+    requirements: ['Valid driver license', 'Valid ID', 'Helmet use required'],
+    images: ['/assets/vehicle/yamaha-fazzio-125cc.png'],
   },
   {
     id: 'vehicle-crf',
@@ -93,14 +137,20 @@ export const VEHICLES: Vehicle[] = [
     daily_rate: 700,
     status: 'available',
     features: ['No gas inclusion', 'Dirt Bike', 'Two Helmets'],
-    images: ['https://upload.wikimedia.org/wikipedia/commons/c/c8/Honda_CRF150L_-_Indonesia_International_Motor_Show_2018_-_April_26_2018.jpg']
-  }
+    badge: 'Adventure Pick',
+    seats: 2,
+    transmission: 'Manual',
+    fuelPolicy: 'Fuel not included',
+    bestFor: 'Confident riders and mountain roads',
+    requirements: ['Valid driver license', 'Valid ID', 'Helmet use required'],
+    images: ['/assets/vehicle/honda-crf-150l.png'],
+  },
 ];
 
 export const LOCATIONS: AppLocation[] = [
-  { id: 'loc-1', name: 'Siquijor Port (Main)', type: 'Port', deliveryFee: 0 },
+  { id: 'loc-1', name: 'Siquijor Port', type: 'Port', deliveryFee: 0 },
   { id: 'loc-2', name: 'Larena Port', type: 'Port', deliveryFee: 200 },
   { id: 'loc-3', name: 'San Juan Beach Area', type: 'Resort', deliveryFee: 300 },
   { id: 'loc-4', name: 'Paliton Beach', type: 'Resort', deliveryFee: 350 },
-  { id: 'loc-5', name: 'Velocis HQ - Siquijor', type: 'Office', deliveryFee: 0 }
+  { id: 'loc-5', name: 'Habibi & Shaun Rentals HQ', type: 'Office', deliveryFee: 0 },
 ];

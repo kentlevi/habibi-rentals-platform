@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Calendar, MapPin, Search, ArrowRight, User, ChevronDown, Check } from 'lucide-react';
-import { format, addDays } from 'date-fns';
+import { Calendar, MapPin, ArrowRight, ChevronDown, Check } from 'lucide-react';
+import { format } from 'date-fns';
 import { LOCATIONS } from '../constants';
-import { motion, AnimatePresence } from 'motion/react';
-import { Vehicle, Reservation, VehicleType } from '../types';
+import { motion } from 'motion/react';
+import { BookingSearch, VehicleType } from '../types';
 import DatePicker from './DatePicker';
 
 export default function BookingWidget() {
@@ -31,14 +31,20 @@ export default function BookingWidget() {
 
   const handleSearch = () => {
     if (!endDate) return;
-    
-    // Instead of querying Firestore for reservations (which requires authentication),
-    // we redirect the user to the inventory section with the selected vehicle type.
+
+    const pickupLocation = LOCATIONS.find(l => l.id === pickupLoc) || LOCATIONS[0];
+    const search: BookingSearch = {
+      vehicleType,
+      pickupLocationId: pickupLocation.id,
+      pickupLocationName: pickupLocation.name,
+      startDate,
+      endDate,
+    };
+
     const inventorySection = document.getElementById('inventory');
     if (inventorySection) {
       inventorySection.scrollIntoView({ behavior: 'smooth' });
-      // We can also dispatch a custom event to update the inventory filter if needed
-      window.dispatchEvent(new CustomEvent('updateVehicleTypeFilter', { detail: vehicleType }));
+      window.dispatchEvent(new CustomEvent('updateBookingSearch', { detail: search }));
     }
   };
 
@@ -66,19 +72,19 @@ export default function BookingWidget() {
             ))}
           </div>
 
-          <div className="flex items-center gap-4 text-[10px] font-semibold text-brand-text-muted uppercase tracking-wider flex-wrap">
+          <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-brand-text-muted">
              <div className="flex items-center gap-2">
                <div className="w-1.5 h-1.5 rounded-full bg-brand-primary animate-pulse"></div>
-               Instant Pick-up
+               Instant pick-up
              </div>
              <div className="hidden sm:block w-1 h-1 rounded-full bg-slate-300"></div>
-             <div>Gcash / Card Accepted</div>
+             <div>Gcash / card accepted</div>
           </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6 items-end">
           <div className="flex flex-col gap-2 relative flex-[1.2]" ref={dropdownRef}>
-            <label className="text-[11px] font-semibold uppercase tracking-[0.15em] text-brand-text-muted ml-2">Pick-up Location</label>
+            <label className="ml-2 text-xs font-semibold text-brand-text-muted">Pick-up location</label>
             <div 
               className="relative group cursor-pointer"
               onClick={() => setIsLocDropdownOpen(!isLocDropdownOpen)}
@@ -116,7 +122,7 @@ export default function BookingWidget() {
           </div>
 
           <div className="flex flex-col gap-2 flex-[1.5] relative" ref={dateDropdownRef}>
-             <label className="text-[11px] font-semibold uppercase tracking-[0.15em] text-brand-text-muted ml-2">Duration</label>
+             <label className="ml-2 text-xs font-semibold text-brand-text-muted">Duration</label>
             <div 
               className="relative group cursor-pointer"
               onClick={() => setIsDateDropdownOpen(!isDateDropdownOpen)}
@@ -160,7 +166,7 @@ export default function BookingWidget() {
             <button 
               onClick={handleSearch}
               disabled={!endDate}
-              className="w-full lg:w-auto px-8 bg-brand-dark text-white h-[56px] rounded-xl font-semibold text-sm tracking-wide whitespace-nowrap hover:bg-black transition-all shadow-[0_8px_16px_rgba(13,22,38,0.15)] flex items-center justify-center gap-3 active:scale-[0.98] disabled:opacity-75 disabled:cursor-not-allowed disabled:active:scale-100"
+              className="flex h-[56px] w-full items-center justify-center gap-3 whitespace-nowrap rounded-xl bg-brand-dark px-8 text-sm font-semibold text-white shadow-[0_8px_16px_rgba(13,22,38,0.15)] transition-all hover:bg-black active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-75 disabled:active:scale-100 lg:w-auto"
             >
               <>
                 Search Available Fleet
